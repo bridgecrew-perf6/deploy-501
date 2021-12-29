@@ -1,18 +1,18 @@
 const express = require('express');
 const morgan = require('morgan');
-const cors = require("cors");
+//const cors = require("cors");
 const bodyParser = require('body-parser')
 
 const app = express();
 
 //npm run dev
 
-var corsOptions = {
+/*var corsOptions = {
   origin: "http://localhost:8081"
-};
+};*/
 
 app.use(express.static("public"));
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
