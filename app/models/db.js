@@ -7,7 +7,7 @@ var connection = mysql.createPool({
   password: dbConfig.PASSWORD,
   database: dbConfig.DB
 });
-
+/*
 connection.connect(function(err) {
   if (err) {
     return console.error('error: ' + err.message);
@@ -26,6 +26,6 @@ connection.connect(function(err) {
       console.log(err.message);
     }
   });
-});
+});*/
 
 module.exports = connection;
