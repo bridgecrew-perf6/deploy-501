@@ -41,7 +41,7 @@ server.on('upgrade', (request, socket, head) => {
 Kvůli tomu že heroku pokud se client odpojí z websocketu tak spadne aplikace tak každou vteřinu odešlu ze serveru zprávu aby Heroku si nemyslelo že aplikace spadla
 */
 setInterval(() => {
-  wss.clients.forEach((client) => {
+  wsServer.clients.forEach((client) => {
     client.send(new Date().toTimeString());
   });
 }, 1000);
