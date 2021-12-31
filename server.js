@@ -1,18 +1,23 @@
 const express = require('express');
 const morgan = require('morgan');
-//const cors = require("cors");
 const bodyParser = require('body-parser')
-
 const app = express();
+const ws = require('ws');
 
 //npm run dev
 
-/*var corsOptions = {
-  origin: "http://localhost:8081"
-};*/
+const wsServer = new ws.Server({ noServer: true });
+wsServer.on('connection', socket => {
+  socket.on('message', function incoming(data) {
+    wsServer.clients.forEach(function each(client) {
+      if (client !== ws && client.readyState === ws.OPEN) {
+        client.send("refresh");
+      }
+    });
+  });
+});
 
 app.use(express.static("public"));
-//app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -23,6 +28,13 @@ require("./app/routes/task.routes.js")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
 });
+server.on('upgrade', (request, socket, head) => {
+  wsServer.handleUpgrade(request, socket, head, socket => {
+    wsServer.emit('connection', socket, request);
+  });
+});
+
+
