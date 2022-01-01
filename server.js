@@ -23,8 +23,8 @@ wsServer.on('connection', socket => {
   });
 });
 
-app.use(express.static("public")); //Deploy
-app.use(cors(corsOptions)); //DEBUG
+app.use(express.static("public")); //Pro nasazení
+//app.use(cors(corsOptions)); //DEBUG
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
