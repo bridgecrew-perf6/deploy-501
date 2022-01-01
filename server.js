@@ -1,10 +1,16 @@
 const express = require('express');
 const morgan = require('morgan');
+//const cors = require("cors"); //DEBUG
 const bodyParser = require('body-parser')
 const app = express();
 const ws = require('ws');
 
 //npm run dev
+
+//DEBUG
+//var corsOptions = {
+//  origin: "http://localhost:8081"
+//};
 
 const wsServer = new ws.Server({ noServer: true });
 wsServer.on('connection', socket => {
@@ -17,7 +23,8 @@ wsServer.on('connection', socket => {
   });
 });
 
-app.use(express.static("public"));
+app.use(express.static("public")); //Deploy
+app.use(cors(corsOptions)); //DEBUG
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -45,5 +52,3 @@ setInterval(() => {
     client.send(new Date().toTimeString());
   });
 }, 1000);
-
-
